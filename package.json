@@ -1,0 +1,38 @@
+{
+  "name": "alias-key-gen",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "Alias Signature",
+    "Alias Unique column name",
+    "Alias key",
+    "alias"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DraviaVemal/alias-key-gen.git"
+  },
+  "author": "DraviaVemal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DraviaVemal/alias-key-gen/issues"
+  },
+  "homepage": "https://github.com/DraviaVemal/alias-key-gen#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3"
+  }
+}
