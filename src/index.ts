@@ -11,7 +11,7 @@ export class AliasKeyGen {
      * @param startSequence Enable number suffix in the sequence generator 
      * @param chars user char list. Be careful on update to avoid keyword trigger 
      */
-    constructor({ startSequence, charString, extendNumberSequenceSuffix: extendNumberSequence }: {
+    constructor({ startSequence, charString, extendNumberSequenceSuffix }: {
         startSequence?: string,
         charString?: string,
         extendNumberSequenceSuffix?: {
@@ -26,8 +26,8 @@ export class AliasKeyGen {
         }) {
         const sequenceChars = (startSequence ?? 'a').split('');
         this._chars = charString ?? 'abcdfghjkmpqxz';
-        this._numSeq = extendNumberSequence?.enableNumSeq ?? false;
-        this._maxNumSeq = extendNumberSequence?.maxNumberSeq ?? 9;
+        this._numSeq = extendNumberSequenceSuffix?.enableNumSeq ?? false;
+        this._maxNumSeq = extendNumberSequenceSuffix?.maxNumberSeq ?? 9;
         this._nextId = (sequenceChars.map(char => {
             if (isNaN(+char)) {
                 return this._chars.indexOf(char) !== -1 ? this._chars.indexOf(char) : 0
@@ -78,17 +78,4 @@ export class AliasKeyGen {
             yield this.next();
         }
     }
-}
-
-const test = new AliasKeyGen({
-    charString: "abcdfghjkmpqxz",
-    extendNumberSequenceSuffix: {
-        enableNumSeq: true,
-        maxNumberSeq: 9
-    },
-    startSequence: "ab5"
-});
-
-for (var i = 0; i <= 30; i++) {
-    console.log(test.next());
 }
