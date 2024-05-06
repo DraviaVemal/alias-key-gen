@@ -38,52 +38,6 @@ export class AliasKeyGen {
         }).filter(v => v != null) as number[]).reverse();
     }
     /**
-     * Static Method for quick use to generate next id
-     */
-    public static getNextId(currentId: string, options?: {
-        charString?: string,
-        extendNumberSequenceSuffix?: {
-            enableNumSeq?: boolean,
-            maxNumberSeq?: number
-        }
-    }): string {
-        var _suffixNum: number = -1;
-        const _chars = options?.charString ?? 'abcdfghjkmpqxz';
-        const _numSeq = options?.extendNumberSequenceSuffix?.enableNumSeq ?? false;
-        const _maxNumSeq = options?.extendNumberSequenceSuffix?.maxNumberSeq ?? 9;
-        const _nextId = (currentId.split('').map(char => {
-            if (isNaN(+char)) {
-                return _chars.indexOf(char) !== -1 ? _chars.indexOf(char) : 0
-            } else {
-                _suffixNum = +char;
-                return null;
-            }
-        }).filter(v => v != null) as number[]).reverse();
-        for (let i = 0; i < _nextId.length; i++) {
-            let val = 0;
-            if (_numSeq && _suffixNum < _maxNumSeq) {
-                val = _nextId[i];
-                ++_suffixNum;
-            } else {
-                val = ++_nextId[i];
-                _suffixNum = -1;
-            }
-            if (val >= _chars.length) {
-                _nextId[i] = 0;
-                _suffixNum = 9;
-            }
-        }
-        _nextId.push(0);
-        const result: any[] = [];
-        for (const char of _nextId) {
-            result.unshift(_chars[char]);
-        }
-        if (_numSeq && _suffixNum >= 0) {
-            result.push(_suffixNum);
-        }
-        return result.join('');
-    }
-    /**
      * Use this when you want to maintain the sequence order within an object.
      * If you want to generate next id based on differenct reference. use static method 'getNextId'
      * @returns Returns next sequence id
@@ -125,5 +79,23 @@ export class AliasKeyGen {
         while (true) {
             yield this.next();
         }
+    }
+
+    /**
+     * Static Method for quick use to generate next id
+     */
+    public static getNextId(currentId: string, options?: {
+        charString?: string,
+        extendNumberSequenceSuffix?: {
+            enableNumSeq?: boolean,
+            maxNumberSeq?: number
+        }
+    }): string {
+        const objAliasKeyGen = new AliasKeyGen({
+            ...options,
+            startSequence: currentId,
+        });
+        objAliasKeyGen.next();
+        return objAliasKeyGen.next();
     }
 }
